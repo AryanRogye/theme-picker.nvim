@@ -81,7 +81,7 @@ M.setup = function(opts)
         local func_name = keymap.func
         local key = keymap.keys
         local mode = keymap.mode or "n"
-        if func_name == "ltbi" then
+        if func_name == "ltbi" or func_name == "loadThemeByIndex" then
             vim.api.nvim_set_keymap(
                 mode,
                 key,
