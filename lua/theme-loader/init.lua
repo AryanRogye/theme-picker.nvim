@@ -88,23 +88,26 @@ M.setup = function(opts)
                 ":lua require('theme-loader').load_theme_by_index()<CR>",
                 { noremap = true, silent = true }
             )
-            if func_name == "ltbui" or func_name == "loadThemeByUI" then
-                vim.api.nvim_set_keymap(
-                    mode,
-                    key,
-                    ":lua require('theme-loader').load_theme_by_ui()<CR>",
-                    { noremap = true, silent = true }
-                )
-            else
-                print("Unknown function: " .. func_name)
-            end
+        elseif func_name == "ltbui" or func_name == "loadThemeByUI" then
+            vim.api.nvim_set_keymap(
+                mode,
+                key,
+                ":lua require('theme-loader').load_theme_by_ui()<CR>",
+                { noremap = true, silent = true }
+            )
+        else
+            print("Unknown function: " .. func_name)
         end
-        Lt(M.opts.default)
     end
+    Lt(M.opts.default)
 end
 
 M.load_theme_by_ui = function()
-    local ui = require("ui")
+    local ok, ui = pcall(require, "ui") -- Check if 'ui' module loads correctly
+    if not ok then
+        print("UI module not found!")
+        return
+    end
     ui.init()
     print("Loading By UI")
 end
