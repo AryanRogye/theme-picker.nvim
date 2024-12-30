@@ -90,12 +90,9 @@ M.setup = function(opts)
             )
             vim.notify("Keybinding set for " .. func_name) -- Debug
         elseif func_name == "ltbui" or func_name == "loadThemeByUI" then
-            vim.api.nvim_set_keymap(
-                mode,
-                key,
-                ":lua require('theme-picker').load_theme_by_ui()<CR>",
-                { noremap = true, silent = true }
-            )
+            vim.keymap.set(mode, key, function()
+                require("theme-picker").load_theme_by_ui()
+            end, { noremap = true, silent = true })
             vim.notify("Keybinding set for " .. func_name) -- Debug
         else
             print("Unknown function: " .. func_name)
