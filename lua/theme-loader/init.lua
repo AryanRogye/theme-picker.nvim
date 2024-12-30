@@ -105,11 +105,11 @@ end
 M.load_theme_by_ui = function()
     local ok, ui = pcall(require, "ui") -- Check if 'ui' module loads correctly
     if not ok then
-        print("UI module not found!")
+        vim.notify("UI module not found!")
         return
     end
     ui.init()
-    print("Loading By UI")
+    vim.notify("Loading By UI")
 end
 
 -- Wrapper for Lt that prompts for input
