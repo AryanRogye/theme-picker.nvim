@@ -85,13 +85,13 @@ M.setup = function(opts)
             vim.api.nvim_set_keymap(
                 mode,
                 key,
-                ":lua require('theme-picker').load_theme_by_index()<CR>",
+                ":lua require('theme-loader').load_theme_by_index()<CR>",
                 { noremap = true, silent = true }
             )
             vim.notify("Keybinding set for " .. func_name) -- Debug
         elseif func_name == "ltbui" or func_name == "loadThemeByUI" then
             vim.keymap.set(mode, key, function()
-                require("theme-picker").load_theme_by_ui()
+                require("theme-loader").load_theme_by_ui()
             end, { noremap = true, silent = true })
             vim.notify("Keybinding set for " .. func_name) -- Debug
         else
