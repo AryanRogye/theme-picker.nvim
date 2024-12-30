@@ -88,6 +88,7 @@ M.setup = function(opts)
                 ":lua require('theme-picker').load_theme_by_index()<CR>",
                 { noremap = true, silent = true }
             )
+            vim.notify("Keybinding set for " .. func_name) -- Debug
         elseif func_name == "ltbui" or func_name == "loadThemeByUI" then
             vim.api.nvim_set_keymap(
                 mode,
@@ -95,6 +96,7 @@ M.setup = function(opts)
                 ":lua require('theme-picker').load_theme_by_ui()<CR>",
                 { noremap = true, silent = true }
             )
+            vim.notify("Keybinding set for " .. func_name) -- Debug
         else
             print("Unknown function: " .. func_name)
         end
@@ -103,13 +105,13 @@ M.setup = function(opts)
 end
 
 M.load_theme_by_ui = function()
-    local ok, ui = pcall(require, "ui") -- Check if 'ui' module loads correctly
+    local ok, ui = pcall(require, "ui")
     if not ok then
-        vim.notify("UI module not found!")
+        vim.notify("UI module not found!", vim.log.levels.ERROR)
         return
     end
     ui.init()
-    vim.notify("Loading By UI")
+    vim.notify("Loading By UI!") -- Debugging output
 end
 
 -- Wrapper for Lt that prompts for input
