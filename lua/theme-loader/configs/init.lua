@@ -25,10 +25,10 @@ local defaults = {
     keys={},
 }
 
-local function UI()
+function M.UI()
     core.load_theme_by_ui()
 end
-local function INDEX()
+function M.INDEX()
     core.load_theme_by_index()
 end
 
