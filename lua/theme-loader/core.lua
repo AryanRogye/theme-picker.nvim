@@ -49,7 +49,8 @@ function M.load_theme_by_index()
     end
 end
 
-function M.setup()
+function M.setup(opts)
+    M.opts = opts
 end
 
 return M

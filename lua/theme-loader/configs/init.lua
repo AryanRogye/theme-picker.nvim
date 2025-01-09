@@ -81,6 +81,7 @@ end
 
 function M.setup(opts)
     M.opts = vim.tbl_deep_extend("force", defaults, opts or {})
+    core.setup(M.opts)
 
     -- Handle Themes
     local isValid, err = M.handleThemes(M.opts)
