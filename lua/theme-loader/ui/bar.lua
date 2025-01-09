@@ -24,9 +24,23 @@ function M.handleKeys(buf)
             require('theme-loader.core').load_theme_by_ui()
         end
     })
+    vim.api.nvim_buf_set_keymap(buf, "n", "q", "", {
+        noremap = true,
+        silent = true,
+        callback = function()
+            vim.api.nvim_set_option_value("modifiable", true, {})
+            vim.api.nvim_buf_delete(buf, { force = true })
+        end
+    })
+    vim.api.nvim_create_autocmd("BufWipeout", {
+        buffer = buf,
+        callback = function()
+            vim.api.nvim_set_option_value("modifiable", true, {})
+        end,
+    })
 end
 function M.setup(themes)
-    vim.cmd("split")
+    vim.cmd("vsplit")
     local buf = vim.api.nvim_create_buf(false, true)
     local win = vim.api.nvim_get_current_win()
 
