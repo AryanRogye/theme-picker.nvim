@@ -2,6 +2,12 @@ local M = {}
 local Popup = require("nui.popup")
 local event = require("nui.utils.autocmd").event
 
+
+
+function M.getCurrentThemeIndex()
+    return require("theme-loader.core").load_theme_state()
+end
+
 function M.handleKeys(buf)
     vim.api.nvim_buf_set_keymap(buf, "n", "<CR>", "", {
         noremap = true,
@@ -28,8 +34,12 @@ function M.setup(themes)
 
     vim.api.nvim_win_set_buf(win, buf)
     for i, _ in ipairs(themes) do
+        local sel = unselected
+        if i == M.getCurrentThemeIndex() then
+            sel = selected
+        end
         vim.api.nvim_buf_set_lines(buf, i-1, -1, false, {
-            " " .. unselected .. themes[i].name,
+            " " .. sel .. themes[i].name,
         })
     end
     M.handleKeys(buf)
