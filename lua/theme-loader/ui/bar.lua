@@ -37,11 +37,11 @@ function M.handleKeys(buf)
         end,
     })
 end
-function M.setup(themes, loc)
+function M.setup(config, themes, loc)
     vim.cmd("vsplit")
     local buf = vim.api.nvim_create_buf(false, true)
     local win = vim.api.nvim_get_current_win()
-    vim.cmd("vertical resize 20")
+    vim.cmd("vertical resize " .. config.ui_col_spacing )
 
     local selected = "[X]"
     local unselected = "[ ]"

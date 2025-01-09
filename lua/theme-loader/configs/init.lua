@@ -23,6 +23,9 @@ local defaults = {
     default = 1,
     themes = {},
     keys={},
+    config={
+        ui_col_spacing = 20
+    },
 }
 
 function M.UI()
