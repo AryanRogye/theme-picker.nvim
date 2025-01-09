@@ -6,12 +6,11 @@ function M.setup(themes)
     local win = vim.api.nvim_get_current_win()
 
     vim.api.nvim_win_set_buf(win, buf)
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
-        themes[1].name,
-    })
-    vim.api.nvim_buf_set_lines(buf, 5, -1, false, {
-        themes[2].name,
-    })
+    for i, _ in ipairs(themes) do
+        vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
+            themes[i].name,
+        })
+    end
     -- Make it read-only
     vim.api.nvim_set_option_value("modifiable", false, {})
     vim.api.nvim_set_option_value("buftype", "nofile", {})
