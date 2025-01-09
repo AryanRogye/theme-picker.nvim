@@ -64,7 +64,7 @@ function M.setup(themes, loc)
     vim.api.nvim_set_option_value("buftype", "nofile", {})
     -- Move the cursor to the last place if one
     if loc and loc > 0 and loc <= #themes then
-        vim.api.nvim_win_set_cursor(win, { loc, 0 }) -- {row, column}
+        vim.api.nvim_win_set_cursor(win, { loc, 2 }) -- {row, column}
     else
         vim.api.nvim_win_set_cursor(win, { 1, 0 }) -- Default to the first row
     end
