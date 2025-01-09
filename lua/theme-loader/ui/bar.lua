@@ -35,6 +35,7 @@ function M.setup(themes)
     local ns_id = vim.api.nvim_create_namespace("theme_picker_namespace")
 
     vim.api.nvim_win_set_buf(win, buf)
+    vim.api.nvim_set_option_value("modifiable", true, {})
     for i, _ in ipairs(themes) do
         local sel = unselected
         if i == M.getCurrentThemeIndex() then
@@ -44,13 +45,9 @@ function M.setup(themes)
             " " .. sel .. themes[i].name,
         })
     end
+    vim.api.nvim_set_option_value("modifiable", false, {})
     M.handleKeys(buf)
 
-    -- local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-
-
-    -- Make it read-only
-    vim.api.nvim_set_option_value("modifiable", false, {})
     vim.api.nvim_set_option_value("buftype", "nofile", {})
 end
 
