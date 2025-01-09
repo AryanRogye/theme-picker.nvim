@@ -89,7 +89,6 @@ M.setup = function(opts)
                 ":lua require('theme-loader').load_theme_by_ui()<CR>",
                 { noremap = true, silent = true }
             )
-            vim.notify("Keybinding set for " .. func_name)
         elseif func_name == "ltbi" or func_name == "loadThemeByIndex" then
             vim.api.nvim_set_keymap(
                 mode,
@@ -97,7 +96,6 @@ M.setup = function(opts)
                 ":lua require('theme-loader').load_theme_by_index()<CR>",
                 { noremap = true, silent = true }
             )
-            vim.notify("Keybinding set for " .. func_name)
         else
             print("Unknown function: " .. func_name)
         end
