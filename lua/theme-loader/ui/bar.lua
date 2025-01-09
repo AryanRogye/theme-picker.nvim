@@ -7,10 +7,10 @@ function M.setup(themes)
 
     vim.api.nvim_win_set_buf(win, buf)
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
-        themes[0],
+        themes[0].name,
     })
     vim.api.nvim_buf_set_lines(buf, 2, 10, false, {
-        themes[2],
+        themes[2].name,
     })
     -- Make it read-only
     vim.api.nvim_set_option_value("modifiable", false, {})
