@@ -43,6 +43,7 @@ function M.setup(themes)
     vim.cmd("vsplit")
     local buf = vim.api.nvim_create_buf(false, true)
     local win = vim.api.nvim_get_current_win()
+    vim.cmd("vertical resize 30")
 
     local selected = "[X]"
     local unselected = "[ ]"
