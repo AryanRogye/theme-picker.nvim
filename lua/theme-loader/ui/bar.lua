@@ -3,13 +3,13 @@ local M = {}
 function M.checkDeviIcon()
     local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
     if not devicons_ok then
-        return nil
+        return false
     end
     return devicons
 end
 
 function M.setup(themes)
-    vim.cmd("hsplit") -- Open a vertical split
+    vim.cmd("split")
     local buf = vim.api.nvim_create_buf(false, true)
     local win = vim.api.nvim_get_current_win()
 
