@@ -1,4 +1,5 @@
 local M = {}
+
 local Popup = require("nui.popup")
 local event = require("nui.utils.autocmd").event
 
@@ -31,10 +32,10 @@ function M.setup(themes)
         popup:unmount()
         popup:mount()
         popup.buf:lines_clear()
-        -- for i, theme in ipairs(themes) do
-        --     lines()
-        --     popup:theme_picker()
-        -- end
+        for i, theme in ipairs(themes) do
+            lines()
+            popup:theme_picker()
+        end
     end
 
 end
