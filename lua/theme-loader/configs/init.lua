@@ -27,10 +27,10 @@ local defaults = {
 
 
 local functions = {
-    ltbui = core.load_theme_by_ui,
-    loadThemeByUI = core.load_theme_by_ui,
-    ltbi = core.load_theme_by_index,
-    loadThemeByIndex = core.load_theme_by_index,
+    ltbui = "core.load_theme_by_ui",
+    loadThemeByUI = "core.load_theme_by_ui",
+    ltbi = "core.load_theme_by_index",
+    loadThemeByIndex = "core.load_theme_by_index",
 }
 
 function M.handleThemes(opts)
@@ -56,7 +56,6 @@ function M.handleKeyBindings(opts)
 
         -- Check The Function Name
         if functions[func_name] then
-            local function_call = ":lua require('theme-loader')." .. functions[func_name] .. "<CR>"
             vim.api.nvim_set_keymap(
                 mode,
                 key,
