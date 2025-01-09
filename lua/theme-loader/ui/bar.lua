@@ -1,14 +1,31 @@
 local M = {}
 
+function M.checkDeviIcon()
+    local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
+    if not devicons_ok then
+        return nil
+    end
+    return devicons
+end
+
 function M.setup(themes)
-    vim.cmd("vsplit") -- Open a vertical split
+    vim.cmd("hsplit") -- Open a vertical split
     local buf = vim.api.nvim_create_buf(false, true)
     local win = vim.api.nvim_get_current_win()
+
+    local icon = ""
+    local selected = "[X]"
+    local unselected = "[]"
+
+    local devicons = M.checkDeviIcon()
+    if devicons then
+        icon = devicons.get_icon("init.vim", "vim", { default = true })
+    end
 
     vim.api.nvim_win_set_buf(win, buf)
     for i, _ in ipairs(themes) do
         vim.api.nvim_buf_set_lines(buf, i-1, -1, false, {
-            themes[i].name,
+            icon .. unselected .. themes[i].name,
         })
     end
     -- Make it read-only
