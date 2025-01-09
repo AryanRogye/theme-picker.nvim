@@ -1,43 +1,45 @@
 local M = {}
-
 local Popup = require("nui.popup")
 local event = require("nui.utils.autocmd").event
 
-function M.setup(themes)
-    -- Create the popup
-    local popup = Popup({
-        position = "50%", -- Center the popup
-        size = {
-            width = 40,
-            height = #themes + 2, -- Dynamic height based on themes
-        },
-        border = {
-            style = "rounded",
-            text = {
-                top = " Theme Picker ",
-                top_align = "center",
-            },
-        },
-        win_options = {
-            winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
-        },
-    })
-
-    -- Mount the popup
-    popup:mount()
-
-    -- Add key bindings for navigation
-    local selected_index = 1
-    local function render_content()
-        popup:unmount()
-        popup:mount()
-        popup.buf:lines_clear()
-        for i, theme in ipairs(themes) do
-            lines()
-            popup:theme_picker()
+function M.handleKeys(buf)
+    vim.api.nvim_buf_set_keymap(buf, "n", "<CR>", "", {
+        noremap = true,
+        silent = true,
+        callback = function()
+            local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+            if not row or not col then
+                vim.notify("There Was An Error", vim.log.levels.WARN)
+                return
+            end
+            require("theme-loader.core").Lt(row)
+            vim.notify("Success Loaded")
         end
-    end
+    })
+end
+function M.setup(themes)
+    vim.cmd("split")
+    local buf = vim.api.nvim_create_buf(false, true)
+    local win = vim.api.nvim_get_current_win()
 
+    local selected = "[X]"
+    local unselected = "[ ]"
+    local ns_id = vim.api.nvim_create_namespace("theme_picker_namespace")
+
+    vim.api.nvim_win_set_buf(win, buf)
+    for i, _ in ipairs(themes) do
+        vim.api.nvim_buf_set_lines(buf, i-1, -1, false, {
+            " " .. unselected .. themes[i].name,
+        })
+    end
+    M.handleKeys(buf)
+
+    -- local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+
+
+    -- Make it read-only
+    vim.api.nvim_set_option_value("modifiable", false, {})
+    vim.api.nvim_set_option_value("buftype", "nofile", {})
 end
 
 return M
