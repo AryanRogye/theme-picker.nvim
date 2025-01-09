@@ -25,18 +25,50 @@ local defaults = {
     keys={},
 }
 
-local functions = {
-    ltbui = core.load_theme_by_ui,
-    loadThemeByUI = core.load_theme_by_ui,
-    ltbi = core.load_theme_by_index,
-    loadThemeByIndex = core.load_theme_by_index,
+local names = {
+    ["ltbui"] = 1,
+    ["loadThemeByUI"] = 1,
+    ["ltbi"] = 2,
+    ["loadThemeByIndex"] = 2
 }
+
+local functions = {
+    "UI",
+    "INDEX"
+}
+
+local function UI()
+    core.load_theme_by_ui()
+end
+local function INDEX()
+    core.load_theme_by_index()
+end
+
 
 function M.handleThemes(opts)
     if #opts.themes == 0 then
         return false, "No themes provided! Please pass themes in setup()."
     end
     return true
+end
+
+local function handleFuncName(
+    mode,
+    key,
+    func_name
+)
+    -- Check The Function Name
+    if names[func_name] then
+        local func = functions[names[func_name]]
+        vim.api.nvim_set_keymap(
+            mode,
+            key,
+            ":lua require('theme-loader.config')." .. func .. "()<CR>",
+            { noremap = true, silent = true }
+        )
+    else
+        vim.notify("Invalid function name: " .. func_name, vim.log.levels.ERROR)
+    end
 end
 
 function M.handleKeyBindings(opts)
@@ -52,18 +84,7 @@ function M.handleKeyBindings(opts)
         if not key then
             return false, "No Keys Provided"
         end
-
-        -- Check The Function Name
-        if functions[func_name] then
-            vim.api.nvim_set_keymap(
-                mode,
-                key,
-                ":lua require('theme-loader.core')." .. func_name .. "()<CR>",
-                { noremap = true, silent = true }
-            )
-        else
-            vim.notify("Invalid function name: " .. func_name, vim.log.levels.ERROR)
-        end
+        handleFuncName(mode, key, func_name)
     end
     return true
 end
