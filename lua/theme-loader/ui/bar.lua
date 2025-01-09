@@ -1,35 +1,42 @@
 local M = {}
+local Popup = require("nui.popup")
+local event = require("nui.utils.autocmd").event
 
 function M.setup(themes)
-    vim.cmd("split")
-    local buf = vim.api.nvim_create_buf(false, true)
-    local win = vim.api.nvim_get_current_win()
+    -- Create the popup
+    local popup = Popup({
+        position = "50%", -- Center the popup
+        size = {
+            width = 40,
+            height = #themes + 2, -- Dynamic height based on themes
+        },
+        border = {
+            style = "rounded",
+            text = {
+                top = " Theme Picker ",
+                top_align = "center",
+            },
+        },
+        win_options = {
+            winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+        },
+    })
 
-    local selected = "[X]"
-    local unselected = "[ ]"
-    local ns_id = vim.api.nvim_create_namespace("theme_picker_namespace")
+    -- Mount the popup
+    popup:mount()
 
-    vim.api.nvim_win_set_buf(win, buf)
-    for i, _ in ipairs(themes) do
-        vim.api.nvim_buf_set_lines(buf, i-1, -1, false, {
-            " " .. unselected .. themes[i].name,
-        })
-        vim.api.nvim_buf_set_extmark(
-            buf,
-            ns_id,
-            i - 1,
-            1,
-            {
-                virt_text = { { " ", "NonText" } },
-                virt_text_pos = "overlay",
-            }
-        )
+    -- Add key bindings for navigation
+    local selected_index = 1
+    local function render_content()
+        popup:unmount()
+        popup:mount()
+        popup.buf:lines_clear()
+        -- for i, theme in ipairs(themes) do
+        --     lines()
+        --     popup:theme_picker()
+        -- end
     end
 
-
-    -- Make it read-only
-    vim.api.nvim_set_option_value("modifiable", false, {})
-    vim.api.nvim_set_option_value("buftype", "nofile", {})
 end
 
 return M
