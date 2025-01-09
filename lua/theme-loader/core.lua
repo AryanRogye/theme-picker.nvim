@@ -1,4 +1,4 @@
-local M
+local M = {}
 
 function M.save_theme_state(index)
     local state_file = vim.fn.stdpath("data") .. "/theme_loader_state.json"
@@ -48,8 +48,8 @@ function M.load_theme_by_index()
         vim.notify("Invalid input! Please enter a number.", vim.log.levels.WARN)
     end
 end
-function M.setup()
 
+function M.setup()
 end
 
 return M
