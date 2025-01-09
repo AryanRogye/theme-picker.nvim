@@ -25,14 +25,11 @@ local defaults = {
     keys={},
 }
 
-local core_ui = "theme-loader.core.load_theme_by_ui"
-local core_index = "theme-loader.core.load_theme_by_index"
-
 local functions = {
-    ltbui = core_ui,
-    loadThemeByUI = core_ui,
-    ltbi = core_index,
-    loadThemeByIndex = core_index,
+    ltbui = core.load_theme_by_ui,
+    loadThemeByUI = core.load_theme_by_ui,
+    ltbi = core.load_theme_by_index,
+    loadThemeByIndex = core.load_theme_by_index,
 }
 
 function M.handleThemes(opts)
@@ -58,11 +55,10 @@ function M.handleKeyBindings(opts)
 
         -- Check The Function Name
         if functions[func_name] then
-            local func = loadstring("return require('" .. functions[func_name]:match("(.+)%.") .. "')['" .. func_path:match("%.([^%.]+)$") .. "']")
             vim.api.nvim_set_keymap(
                 mode,
                 key,
-                ":lua " .. func_name .. "()<CR>",
+                ":lua require('theme-loader.core')." .. func_name .. "()<CR>",
                 { noremap = true, silent = true }
             )
         else
