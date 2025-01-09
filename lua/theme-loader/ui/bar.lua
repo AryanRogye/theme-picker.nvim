@@ -19,7 +19,9 @@ function M.handleKeys(buf)
                 return
             end
             require("theme-loader.core").Lt(row)
-            vim.notify("Success Loaded")
+            -- Close The Current Buffer And Open it Again
+            vim.api.nvim_buf_delete(buf, { force = true })
+            require('theme-loader.core').load_theme_by_ui()
         end
     })
 end
