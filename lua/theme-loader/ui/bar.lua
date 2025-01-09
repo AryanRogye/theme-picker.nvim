@@ -7,7 +7,7 @@ function M.setup(themes)
 
     vim.api.nvim_win_set_buf(win, buf)
     for i, _ in ipairs(themes) do
-        vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
+        vim.api.nvim_buf_set_lines(buf, i-1, -1, false, {
             themes[i].name,
         })
     end
