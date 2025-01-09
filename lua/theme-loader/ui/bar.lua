@@ -9,7 +9,7 @@ function M.setup(themes)
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
         themes[1].name,
     })
-    vim.api.nvim_buf_set_lines(buf, 2, 10, false, {
+    vim.api.nvim_buf_set_lines(buf, 5, -1, false, {
         themes[2].name,
     })
     -- Make it read-only
