@@ -2,8 +2,6 @@ local M = {}
 local Popup = require("nui.popup")
 local event = require("nui.utils.autocmd").event
 
-
-
 function M.getCurrentThemeIndex()
     return require("theme-loader.core").load_theme_state()
 end
@@ -21,7 +19,7 @@ function M.handleKeys(buf)
             require("theme-loader.core").Lt(row)
             -- Close The Current Buffer And Open it Again
             vim.api.nvim_buf_delete(buf, { force = true })
-            require('theme-loader.core').load_theme_by_ui()
+            require('theme-loader.core').load_theme_by_ui(row)
         end
     })
     vim.api.nvim_buf_set_keymap(buf, "n", "q", "", {
