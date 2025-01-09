@@ -39,11 +39,11 @@ function M.handleKeys(buf)
         end,
     })
 end
-function M.setup(themes)
+function M.setup(themes, loc)
     vim.cmd("vsplit")
     local buf = vim.api.nvim_create_buf(false, true)
     local win = vim.api.nvim_get_current_win()
-    vim.cmd("vertical resize 30")
+    vim.cmd("vertical resize 20")
 
     local selected = "[X]"
     local unselected = "[ ]"
@@ -64,6 +64,12 @@ function M.setup(themes)
     M.handleKeys(buf)
 
     vim.api.nvim_set_option_value("buftype", "nofile", {})
+    -- Move the cursor to the last place if one
+    if loc and loc > 0 and loc <= #themes then
+        vim.api.nvim_win_set_cursor(win, { loc, 0 }) -- {row, column}
+    else
+        vim.api.nvim_win_set_cursor(win, { 1, 0 }) -- Default to the first row
+    end
 end
 
 return M
