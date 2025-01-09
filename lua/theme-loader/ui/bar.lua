@@ -1,6 +1,4 @@
 local M = {}
-local Popup = require("nui.popup")
-local event = require("nui.utils.autocmd").event
 
 function M.getCurrentThemeIndex()
     return require("theme-loader.core").load_theme_state()
