@@ -68,10 +68,10 @@ local function handleFuncName(
         return
     end
 
-    vim.api.nvim_set_keymap(
+    vim.keymap.set(
         mode,
         key,
-        ":lua require('theme-loader.configs')." .. func .. "()<CR>",
+        func,
         { noremap = true, silent = true }
     )
 end
