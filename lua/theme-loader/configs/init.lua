@@ -1,13 +1,109 @@
-
+local core = require("theme-loader.core")
 local M = {}
 
+-- Accepts themes which looks like
+--- @field default int default index to start at     
+--- @field themes  table[] 
+---   - `name` (string): The name of the theme.
+---   - `func` (function): Function to apply the theme.
+--- @Example ↓
+--- themes = {
+---             { name = "Theme Name" , func = function   <- Make sure no() around it },
+---          }
+--- TODO Check if colorscheme([]) works or not
+---  @field Keys table[] 
+---   - `func` (string): Name of the function to call (e.g., "loadThemeByIndex").
+---   - `key` (string): Keybinding (e.g., "<leader>t1").
+---  @Example ↓
+---
+---  keys = {
+---             { func = "loadThemeByIndex || ltbi" , mode ="n / v / i" ,keys = "<leader> or <C-> whatever this isnt required" },
+---         }
 local defaults = {
     default = 1,
     themes = {},
     keys={},
 }
 
-M.setup = function(opts)
+
+local functions = {
+    ltbui = core.load_theme_by_ui,
+    loadThemeByUI = core.load_theme_by_ui,
+    ltbi = core.load_theme_by_index,
+    loadThemeByIndex = core.load_theme_by_index,
+}
+
+function M.handleThemes(opts)
+    if #opts.themes == 0 then
+        return false, "No themes provided! Please pass themes in setup()."
+    end
+    return true
+end
+
+function M.handleKeyBindings(opts)
+    -- Loop Through The Keys
+    for _, keymap in ipairs(M.opts.keys) do
+        local func_name = keymap.func
+        local key = keymap.keys
+        local mode = keymap.mode or "n"
+        -- Verify These Exist
+        if not func_name then
+            return false, "No Function Name Provided"
+        end
+        if not key then
+            return false, "No Keys Provided"
+        end
+
+        -- Check The Function Name
+        if functions[func_name] then
+            local function_call = ":lua require('theme-loader')." .. functions[func_name] .. "<CR>"
+            vim.api.nvim_set_keymap(
+                mode,
+                key,
+                ":lua require('theme-loader')." .. func_name .. "()<CR>",
+                { noremap = true, silent = true }
+            )
+        else
+            vim.notify("Invalid function name: " .. func_name, vim.log.levels.ERROR)
+        end
+    end
+    return true
+end
+
+function M.handleCurrentThemeState()
+    local saved_index = core.load_theme_state()
+    if saved_index and saved_index >= 1 and saved_index <= #M.opts.themes then
+        M.opts.default = saved_index
+    elseif M.opts.default < 1 or M.opts.default > #M.opts.themes then
+        print("Invalid default index! Falling back to index 1.")
+        M.opts.default = 1
+    end
+end
+
+function M.setup(opts)
+    M.opts = vim.tbl_deep_extend("force", defaults, opts or {})
+
+    -- Handle Themes
+    local isValid, err = M.handleThemes(M.opts)
+    if not isValid then
+        if err then
+            vim.notify(err, vim.log.levels.ERROR)
+        else
+            vim.notify("There Was An Error With The Themes", vim.log.levels.ERROR)
+        end
+        return
+    end
+    -- Handle Current Theme State By Loading Last Theme
+    M.handleCurrentThemeState()
+    -- Setup Key Bindings
+    isValid, err = M.handleKeyBindings(M.opts)
+    if not isValid then
+        if err then
+            vim.notify(err, vim.log.levels.ERROR)
+        end
+        vim.notify("There Was An Error With The Keybindings", vim.log.levels.ERROR)
+    end
+    core.Lt(M.opts.default)
 end
 
 
