@@ -42,7 +42,7 @@ end
 
 function M.handleKeyBindings(opts)
     -- Loop Through The Keys
-    for _, keymap in ipairs(M.opts.keys) do
+    for _, keymap in ipairs(opts.keys) do
         local func_name = keymap.func
         local key = keymap.keys
         local mode = keymap.mode or "n"
@@ -70,13 +70,13 @@ function M.handleKeyBindings(opts)
     return true
 end
 
-function M.handleCurrentThemeState()
+function M.handleCurrentThemeState(opts)
     local saved_index = core.load_theme_state()
-    if saved_index and saved_index >= 1 and saved_index <= #M.opts.themes then
-        M.opts.default = saved_index
-    elseif M.opts.default < 1 or M.opts.default > #M.opts.themes then
+    if saved_index and saved_index >= 1 and saved_index <= #opts.themes then
+        opts.default = saved_index
+    elseif opts.default < 1 or opts.default > #opts.themes then
         print("Invalid default index! Falling back to index 1.")
-        M.opts.default = 1
+        opts.default = 1
     end
 end
 
@@ -94,7 +94,7 @@ function M.setup(opts)
         return
     end
     -- Handle Current Theme State By Loading Last Theme
-    M.handleCurrentThemeState()
+    M.handleCurrentThemeState(M.opts)
     -- Setup Key Bindings
     isValid, err = M.handleKeyBindings(M.opts)
     if not isValid then
