@@ -36,7 +36,7 @@ function M.Lt(index)
 end
 
 function M.load_theme_by_ui()
-    vim.notify("Called UI")
+    require("theme-loader.ui.bar").setup(M.opts.themes)
 end
 
 function M.load_theme_by_index()
