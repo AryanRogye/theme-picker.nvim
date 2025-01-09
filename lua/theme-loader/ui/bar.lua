@@ -7,7 +7,7 @@ function M.setup(themes)
 
     local selected = "[X]"
     local unselected = "[ ]"
-
+    local ns_id = vim.api.nvim_create_namespace("theme_picker_namespace")
 
     vim.api.nvim_win_set_buf(win, buf)
     for i, _ in ipairs(themes) do
@@ -16,7 +16,7 @@ function M.setup(themes)
         })
         vim.api.nvim_buf_set_extmark(
             buf,
-            0,
+            ns_id,
             i - 1,
             1,
             {
