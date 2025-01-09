@@ -7,15 +7,14 @@ function M.setup(themes)
 
     vim.api.nvim_win_set_buf(win, buf)
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
-        "Theme Picker Sidebar",
-        "1. GruvBox",
-        "2. Oxocarbon",
-        "3. Cyberdream",
+        themes[0],
     })
-
+    vim.api.nvim_buf_set_lines(buf, 2, 10, false, {
+        themes[2],
+    })
     -- Make it read-only
-    vim.api.nvim_buf_set_option(buf, "modifiable", false)
-    vim.api.nvim_buf_set_option(buf, "buftype", "nofile")
+    vim.api.nvim_set_option_value("modifiable", false, {})
+    vim.api.nvim_set_option_value("buftype", "nofile", {})
 end
 
 return M
