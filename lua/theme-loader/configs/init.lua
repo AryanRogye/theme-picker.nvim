@@ -25,6 +25,14 @@ local defaults = {
     keys={},
 }
 
+local function UI()
+    core.load_theme_by_ui()
+end
+local function INDEX()
+    core.load_theme_by_index()
+end
+
+
 local names = {
     ["ltbui"] = 1,
     ["loadThemeByUI"] = 1,
@@ -33,17 +41,9 @@ local names = {
 }
 
 local functions = {
-    "UI",
-    "INDEX"
+    [1] = function() require("theme-loader.configs").UI() end,
+    [2] = function() require('theme-loader.configs').INDEX() end,
 }
-
-local function UI()
-    core.load_theme_by_ui()
-end
-local function INDEX()
-    core.load_theme_by_index()
-end
-
 
 function M.handleThemes(opts)
     if #opts.themes == 0 then
@@ -57,18 +57,23 @@ local function handleFuncName(
     key,
     func_name
 )
-    -- Check The Function Name
-    if names[func_name] then
-        local func = functions[names[func_name]]
-        vim.api.nvim_set_keymap(
-            mode,
-            key,
-            ":lua require('theme-loader.configs')." .. func .. "()<CR>",
-            { noremap = true, silent = true }
-        )
-    else
-        vim.notify("Invalid function name: " .. func_name, vim.log.levels.ERROR)
+    local index = names[func_name]
+    if not index then
+        vim.notify("Index Not Found", vim.log.levels.ERROR)
+        return
     end
+    local func = functions[index]
+    if not func then
+        vim.notify("Func Not Found", vim.log.levels.ERROR)
+        return
+    end
+
+    vim.api.nvim_set_keymap(
+        mode,
+        key,
+        ":lua require('theme-loader.configs')." .. func_name .. "()<CR>",
+        { noremap = true, silent = true }
+    )
 end
 
 function M.handleKeyBindings(opts)
