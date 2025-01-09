@@ -29,7 +29,7 @@ function M.Lt(index)
     local theme = M.opts.themes[index]
     if theme then
         theme.func()
-        save_theme_state(index) -- Save the theme index
+        M.save_theme_state(index) -- Save the theme index
     else
         vim.notify("Theme not found at index: " .. index, vim.log.levels.WARN)
     end
@@ -43,7 +43,7 @@ function M.load_theme_by_index()
     local str = vim.fn.input("> ")
     local strI = tonumber(str)
     if strI then
-        Lt(strI)
+        M.Lt(strI)
     else
         vim.notify("Invalid input! Please enter a number.", vim.log.levels.WARN)
     end
