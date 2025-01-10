@@ -4,12 +4,15 @@ function M.getCurrentThemeIndex()
     return require("theme-loader.core").load_theme_state()
 end
 
-function M.previewHandler()
+function M.previewHandler(buf)
     local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
     if not row then
         vim.notify("There Was An Error", vim.og.levels.WARN)
     end
     require("theme-loader.core").previewTheme(row)
+    -- Close The Current Buffer And Open it Again
+    vim.api.nvim_buf_delete(buf, { force = true })
+    require('theme-loader.core').load_theme_by_ui(row)
 end
 
 function M.handleKeys(buf, config)
@@ -42,19 +45,20 @@ function M.handleKeys(buf, config)
             vim.api.nvim_set_option_value("modifiable", true, {})
         end,
     })
+    -- For Config Preview = true
     if config.preview then
         vim.api.nvim_buf_set_keymap(buf, "n", "j", "", {
             noremap = true,
             silent = true,
             callback = function()
-                M.previewHandler()
+                M.previewHandler(buf)
             end
         })
         vim.api.nvim_buf_set_keymap(buf, "n", "k", "", {
             noremap = true,
             silent = true,
             callback = function()
-                M.previewHandler()
+                M.previewHandler(buf)
             end
         })
     end

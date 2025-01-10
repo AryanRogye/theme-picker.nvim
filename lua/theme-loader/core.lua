@@ -25,7 +25,7 @@ function M.load_theme_state()
     end
 end
 
-function loadTheme(index, save)
+local function loadTheme(index, save)
     local theme = M.opts.themes[index]
     if theme then
         theme.func()
