@@ -36,10 +36,10 @@ function M.handleKeys(buf)
     })
 end
 function M.checkBufOpen(buf_name)
+    -- Check if a buffer with the given name is already open
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
         if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
-            local name = vim.api.nvim_buf_get_name(buf)
-            if name == buf_name then
+            if vim.api.nvim_buf_get_name(buf) == buf_name then
                 return buf
             end
         end
@@ -59,7 +59,6 @@ function M.setup(config, themes, loc)
     vim.cmd("vsplit")
     local buf = vim.api.nvim_create_buf(false, true)
     local win = vim.api.nvim_get_current_win()
-    vim.api.nvim_buf_set_name(buf, buf_name)
     vim.api.nvim_buf_set_name(buf, buf_name)
     vim.cmd("vertical resize " .. config.ui_col_spacing )
 
