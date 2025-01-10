@@ -36,6 +36,10 @@ function M.handleKeys(buf, config)
         noremap = true,
         silent = true,
         callback = function()
+            if config.preview then
+                local selectedIndex = M.getCurrentThemeIndex()
+                require("theme-loader.core").Lt(selectedIndex)
+            end
             vim.api.nvim_set_option_value("modifiable", true, {})
             vim.api.nvim_buf_delete(buf, { force = true })
         end
@@ -46,6 +50,7 @@ function M.handleKeys(buf, config)
             vim.api.nvim_set_option_value("modifiable", true, {})
         end,
     })
+
     -- For Config Preview = true
     if config.preview then
         vim.api.nvim_buf_set_keymap(buf, "n", "j", "", {
