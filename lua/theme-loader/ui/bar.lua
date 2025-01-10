@@ -60,9 +60,13 @@ function M.setup(config, themes, loc)
     M.handleKeys(buf)
 
     vim.api.nvim_set_option_value("buftype", "nofile", {})
+
+    -- Get the col location based on the opening size
+    local colLoc = #config.opening + 1
+
     -- Move the cursor to the last place if one
     if loc and loc > 0 and loc <= #themes then
-        vim.api.nvim_win_set_cursor(win, { loc, 2 }) -- {row, column}
+        vim.api.nvim_win_set_cursor(win, { loc, colLoc }) -- {row, column}
     else
         vim.api.nvim_win_set_cursor(win, { 1, 0 }) -- Default to the first row
     end
