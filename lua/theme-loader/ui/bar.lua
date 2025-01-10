@@ -4,7 +4,7 @@ function M.getCurrentThemeIndex()
     return require("theme-loader.core").load_theme_state()
 end
 
-function M.handleKeys(buf, keys)
+function M.handleKeys(buf)
     vim.api.nvim_buf_set_keymap(buf, "n", "<CR>", "", {
         noremap = true,
         silent = true,
@@ -28,16 +28,6 @@ function M.handleKeys(buf, keys)
             vim.api.nvim_buf_delete(buf, { force = true })
         end
     })
-    if keys then
-        vim.api.nvim_buf_set_keymap(buf, keys.mode or "n", keys.keys, "", {
-            noremap = true,
-            silent = true,
-            callback = function()
-                vim.api.nvim_set_option_value("modifiable", true, {})
-                vim.api.nvim_buf_delete(buf, { force = true })
-            end
-        })
-    end
     vim.api.nvim_create_autocmd("BufWipeout", {
         buffer = buf,
         callback = function()
@@ -56,10 +46,21 @@ function M.checkBufOpen(buf_name)
     end
     return nil
 end
-function M.setup(keys, config, themes, loc)
+function M.setup(config, themes, loc)
+    local buf_name = "theme-loader"
+    local existing_buf = M.checkBufOpen(buf_name)
+    if existing_buf then
+        -- Focus the existing buffer
+        vim.api.nvim_set_option_value("modifiable", true, {})
+        vim.api.nvim_buf_delete(existing_buf, { force = true })
+        return
+    end
+
     vim.cmd("vsplit")
     local buf = vim.api.nvim_create_buf(false, true)
     local win = vim.api.nvim_get_current_win()
+    vim.api.nvim_buf_set_name(buf, buf_name)
+    vim.api.nvim_buf_set_name(buf, buf_name)
     vim.cmd("vertical resize " .. config.ui_col_spacing )
 
     local selected = config.opening .. config.selection .. config.closing
@@ -78,7 +79,7 @@ function M.setup(keys, config, themes, loc)
         })
     end
     vim.api.nvim_set_option_value("modifiable", false, {})
-    M.handleKeys(buf, keys)
+    M.handleKeys(buf)
 
     vim.api.nvim_set_option_value("buftype", "nofile", {})
 
