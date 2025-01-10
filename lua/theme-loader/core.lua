@@ -36,7 +36,7 @@ function M.Lt(index)
 end
 
 function M.load_theme_by_ui(index)
-    require("theme-loader.ui.bar").setup(M.opts.config,M.opts.themes, index)
+    require("theme-loader.ui.bar").setup(M.keys,M.opts.config,M.opts.themes, index)
 end
 
 function M.load_theme_by_index()
