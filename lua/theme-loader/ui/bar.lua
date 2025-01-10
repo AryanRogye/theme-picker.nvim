@@ -50,8 +50,6 @@ function M.setup(config, themes, loc)
     local buf_name = "theme-loader"
     local existing_buf = M.checkBufOpen(buf_name)
     if existing_buf then
-        -- Focus the existing buffer
-        vim.api.nvim_set_option_value("modifiable", true, {})
         vim.api.nvim_buf_delete(existing_buf, { force = true })
         return
     end
