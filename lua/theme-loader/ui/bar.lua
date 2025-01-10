@@ -52,6 +52,10 @@ function M.handleKeys(buf, config)
     })
     vim.api.nvim_buf_set_keymap(buf, "n", "h", "", { noremap = true, silent = true })
     vim.api.nvim_buf_set_keymap(buf, "n", "l", "", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(buf, "n", "p", "", { noremap = true, silent = true, callback = function()
+        config.preview = not config.preview
+        require("theme-loader.core").Lt(M.getCurrentThemeIndex())
+    end})
 
     -- For Config Preview = true
     if config.preview then
