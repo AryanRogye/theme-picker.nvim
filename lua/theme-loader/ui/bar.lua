@@ -52,9 +52,11 @@ function M.setup(config, themes, loc)
     local existing_buf = M.checkBufOpen(buf_name)
     if existing_buf then
         -- Delete the existing buffer
+        vim.notify("Deleted")
         vim.api.nvim_buf_delete(existing_buf, { force = true })
         return
     end
+    vim.notify("Exists")
 
     vim.cmd("vsplit")
     local buf = vim.api.nvim_create_buf(false, true)
@@ -66,7 +68,6 @@ function M.setup(config, themes, loc)
 
     local selected = config.opening .. config.selection .. config.closing
     local unselected = config.opening .. " " .. config.closing
-    local ns_id = vim.api.nvim_create_namespace("theme_picker_namespace")
 
     vim.api.nvim_win_set_buf(win, buf)
     vim.api.nvim_set_option_value("modifiable", true, {})
