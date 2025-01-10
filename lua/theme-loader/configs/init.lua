@@ -24,7 +24,10 @@ local defaults = {
     themes = {},
     keys={},
     config={
-        ui_col_spacing = 20
+        ui_col_spacing = 20,
+        opening = "[",
+        closing = "]",
+        selection = "X"
     },
 }
 

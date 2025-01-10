@@ -41,8 +41,8 @@ function M.setup(config, themes, loc)
     local win = vim.api.nvim_get_current_win()
     vim.cmd("vertical resize " .. config.ui_col_spacing )
 
-    local selected = "[X]"
-    local unselected = "[ ]"
+    local selected = config.opening .. config.selection .. config.closing
+    local unselected = config.opening .. " " .. config.closing
     local ns_id = vim.api.nvim_create_namespace("theme_picker_namespace")
 
     vim.api.nvim_win_set_buf(win, buf)
