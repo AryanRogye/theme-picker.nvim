@@ -54,6 +54,8 @@ function M.handleKeys(buf, config)
             vim.api.nvim_set_option_value("modifiable", true, {})
         end,
     })
+    vim.api.nvim_buf_set_keymap(buf, "n", "h", "", { noremap = true, silent = true })
+    vim.api.nvim_buf_set_keymap(buf, "n", "l", "", { noremap = true, silent = true })
 
     -- For Config Preview = true
     if config.preview then
@@ -129,12 +131,11 @@ function M.setup(config, themes, loc)
 
     -- Get the col location based on the opening size
     local colLoc = #config.opening + 1
-
     -- Move the cursor to the last place if one
     if loc and loc > 0 and loc <= #themes then
         vim.api.nvim_win_set_cursor(win, { loc, colLoc }) -- {row, column}
     else
-        vim.api.nvim_win_set_cursor(win, { 1, 0 }) -- Default to the first row
+        vim.api.nvim_win_set_cursor(win, { 1, colLoc }) -- Default to the first row
     end
 end
 
