@@ -5,6 +5,11 @@
 ## Features
 - Switch between multiple themes easily.
 - Bind keys to select and load themes dynamically.
+- UI to show Themes
+
+## TODO
+- [ ] Add Preview Implimentation as you go through
+- [ ] Support for custom icons for themes using `nvim-web-devicons`
 
 ## Installation
 
@@ -70,8 +75,6 @@ return M
  ```
 
 
-
-
 ### Using The Plugin
 ```lua
     {
@@ -83,7 +86,7 @@ return M
             local theme = require("my-themes")
             require("theme-loader").setup({
 --              if this is not set no default theme will need keys or command
-                default = 2,    -- default index if no keys set
+                default = 1,    -- default index if no keys set
                 themes = {
 --                  Load Theme in format name = "" func = func <- Make sure no ()
                     { name = "GruvBox", func = theme.load_gruvbox },
@@ -102,6 +105,16 @@ return M
                 keys = {
                     -- Format is This The only func is ltbi or loadThemeByIndex
                     {func = "ltbi", mode = "n" , keys = "<leader>ll"},
+                    -- Or loadThemeByUI
+                    {func = "ltbui", mode = "n" , keys = "<leader>lu"}
+                },
+                -- Default Values Can Change
+                config = {
+                    -- How 
+                    ui_col_spacing = 20,
+                    opening = " [",
+                    closing = "]",
+                    selection = "X"
                 }
             })
         end,
