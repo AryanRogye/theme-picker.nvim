@@ -50,7 +50,7 @@ function M.checkBufOpen(buf_name)
     return nil
 end
 function M.setup(config, themes, loc)
-    local buf_name = "theme-loader"
+    local buf_name = "-190222fbx"
     local existing_buf = M.checkBufOpen(buf_name)
     if existing_buf then
         -- Delete the existing buffer
