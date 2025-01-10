@@ -8,12 +8,12 @@
 - UI to show Themes
 
 ## TODO
-- [ ] Add **`Preview` Implementation**:
+- [x] Add **`Preview` Implementation**:
   - Implement functionality to preview themes  as the user navigates through the list.
 
 - [ ] Option to **Turn Off `Preview`**:
   - Allow users to disable the preview feature (Maybe In UI).
-  - Configuration option: `preview = true | false`.
+  - **Done:** Configuration option: `preview = true | false`.
   - Ensure the UI behaves correctly when preview is disabled.
 
 - [ ] Support for **Custom Icons** for Themes Using `nvim-web-devicons`:
@@ -129,9 +129,11 @@ return M
                 config = {
                     -- How big the bar is
                     ui_col_spacing = 20,
-                    opening = " [",
+                    opening = "[",
                     closing = "]",
                     selection = "X"
+                    -- Preview on j and k
+                    preview = true,
                 }
             })
         end,
