@@ -4,6 +4,14 @@ function M.getCurrentThemeIndex()
     return require("theme-loader.core").load_theme_state()
 end
 
+function M.previewHandler()
+    local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+    if not row then
+        vim.notify("There Was An Error", vim.og.levels.WARN)
+    end
+    require("theme-loader.core").previewTheme(row)
+end
+
 function M.handleKeys(buf, config)
     vim.api.nvim_buf_set_keymap(buf, "n", "<CR>", "", {
         noremap = true,
@@ -52,13 +60,6 @@ function M.handleKeys(buf, config)
     end
 end
 
-function M.previewHandler()
-    local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
-    if not row then
-        vim.notify("There Was An Error", vim.og.levels.WARN)
-    end
-    require("theme-loader.core").previewTheme(row)
-end
 function M.setup(config, themes, loc)
     vim.cmd("vsplit")
     local buf = vim.api.nvim_create_buf(false, true)
