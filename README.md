@@ -8,8 +8,25 @@
 - UI to show Themes
 
 ## TODO
-- [ ] Add Preview Implimentation as you go through
-- [ ] Support for custom icons for themes using `nvim-web-devicons`
+- [ ] Add **`Preview` Implementation**:
+  - Implement functionality to preview themes  as the user navigates through the list.
+
+- [ ] Option to **Turn Off `Preview`**:
+  - Allow users to disable the preview feature (Maybe In UI).
+  - Configuration option: `preview = true | false`.
+  - Ensure the UI behaves correctly when preview is disabled.
+
+- [ ] Support for **Custom Icons** for Themes Using `nvim-web-devicons`:
+  - Allow users to define custom icons for each theme in the list.
+  - Provide default icons if none are specified.
+
+- [ ] Support for UI Placement on **Different Sides**:
+  - Add options to display the UI:
+    - Vertically (default, `vsplit`).
+    - Horizontally (`split`).
+    - Possibly in a floating window.
+  - Add a configuration option, e.g., `ui_side = "right" | "bottom" | "float"`.
+
 
 ## Installation
 
@@ -110,7 +127,7 @@ return M
                 },
                 -- Default Values Can Change
                 config = {
-                    -- How 
+                    -- How big the bar is
                     ui_col_spacing = 20,
                     opening = " [",
                     closing = "]",
