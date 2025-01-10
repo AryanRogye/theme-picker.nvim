@@ -106,8 +106,8 @@ function M.drawMenu(themes, config, buf)
     vim.api.nvim_set_option_value("modifiable", true, {})
     vim.api.nvim_buf_set_lines(buf, rowLen + 1, -1, false, {
         bar,
-        "{p} < turn off Preview",
-        "{q} || {:q} < quit"
+        "p toggle preview",
+        "q or :q quit"
     })
     vim.api.nvim_set_option_value("modifiable", false, {})
 end
