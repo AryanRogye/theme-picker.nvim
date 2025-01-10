@@ -4,23 +4,12 @@ function M.getCurrentThemeIndex()
     return require("theme-loader.core").load_theme_state()
 end
 
-function M.previewHandler(buf, up)
+function M.previewHandler(buf)
     local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-    local total_lines = vim.api.nvim_buf_line_count(buf)
-
     if not row or not col then
         vim.notify("There Was An Error", vim.og.levels.WARN)
     end
 
-    if not up then
-        if row < total_lines then
-            vim.api.nvim_win_set_cursor(0, { row + 1, col })
-        end
-    else
-        if row > 1 then
-            vim.api.nvim_win_set_cursor(0, { row - 1, col })
-        end
-    end
     require("theme-loader.core").previewTheme(row)
     -- Close The Current Buffer And Open it Again
     vim.api.nvim_buf_delete(buf, { force = true })
@@ -63,16 +52,24 @@ function M.handleKeys(buf, config)
             noremap = true,
             silent = true,
             callback = function()
-                vim.notify("J")
-                -- M.previewHandler(buf, false)
+                local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+                local total_lines = vim.api.nvim_buf_line_count(buf)
+                if row < total_lines then
+                    vim.api.nvim_win_set_cursor(0, { row + 1, col })
+                    M.previewHandler(buf)
+                end
             end
         })
         vim.api.nvim_buf_set_keymap(buf, "n", "k", "", {
             noremap = true,
             silent = true,
             callback = function()
-                vim.notify("K")
-                -- M.previewHandler(buf, true)
+                local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+                local total_lines = vim.api.nvim_buf_line_count(buf)
+                if row > 1 then
+                    vim.api.nvim_win_set_cursor(0, { row - 1, col })
+                    M.previewHandler(buf)
+                end
             end
         })
     end
