@@ -63,14 +63,16 @@ function M.handleKeys(buf, config)
             noremap = true,
             silent = true,
             callback = function()
-                M.previewHandler(buf, false)
+                vim.notify("J")
+                -- M.previewHandler(buf, false)
             end
         })
         vim.api.nvim_buf_set_keymap(buf, "n", "k", "", {
             noremap = true,
             silent = true,
             callback = function()
-                M.previewHandler(buf, true)
+                vim.notify("K")
+                -- M.previewHandler(buf, true)
             end
         })
     end
