@@ -102,7 +102,7 @@ end
 function M.drawMenu(themes, config, buf)
     -- First Step is Getting The Row Height
     local rowLen = #themes
-    local bar = "-" * config.ui_col_spacing
+    local bar = string.rep("-", config.ui_col_spacing)
     vim.api.nvim_set_option_value("modifiable", true, {})
     vim.api.nvim_buf_set_lines(buf, rowLen + 1, -1, false, {
         bar,
