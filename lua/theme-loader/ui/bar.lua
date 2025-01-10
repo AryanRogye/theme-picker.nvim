@@ -84,17 +84,9 @@ function M.handleKeys(buf, config)
     end
 end
 
-function M.setup(config, themes, loc)
-    vim.cmd("vsplit")
-    local buf = vim.api.nvim_create_buf(false, true)
-    local win = vim.api.nvim_get_current_win()
-
-    vim.cmd("vertical resize " .. config.ui_col_spacing)
-
+function M.drawThemes(themes, config, buf)
     local selected = config.opening .. config.selection .. config.closing
     local unselected = config.opening .. " " .. config.closing
-
-    vim.api.nvim_win_set_buf(win, buf)
     vim.api.nvim_set_option_value("modifiable", true, {})
     for i, _ in ipairs(themes) do
         local sel = unselected
@@ -106,6 +98,31 @@ function M.setup(config, themes, loc)
         })
     end
     vim.api.nvim_set_option_value("modifiable", false, {})
+end
+function M.drawMenu(themes, config, buf)
+    -- First Step is Getting The Row Height
+    local rowLen = #themes
+    local bar = "-" * config.ui_col_spacing
+    vim.api.nvim_set_option_value("modifiable", true, {})
+    vim.api.nvim_buf_set_lines(buf, rowLen + 1, -1, false, {
+        bar,
+        "{p} < turn off Preview",
+        "{q} || {:q} < quit"
+    })
+    vim.api.nvim_set_option_value("modifiable", false, {})
+end
+
+function M.setup(config, themes, loc)
+    vim.cmd("vsplit")
+    local buf = vim.api.nvim_create_buf(false, true)
+    local win = vim.api.nvim_get_current_win()
+
+    vim.cmd("vertical resize " .. config.ui_col_spacing)
+
+
+    vim.api.nvim_win_set_buf(win, buf)
+    M.drawThemes(themes, config, buf)
+    M.drawMenu(themes,config,buf)
     M.handleKeys(buf, config)
 
     vim.api.nvim_set_option_value("buftype", "nofile", {})

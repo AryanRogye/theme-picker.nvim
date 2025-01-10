@@ -9,7 +9,7 @@
 
 ## TODO
 - [x] Add **`Preview` Implementation**:
-  - Implement functionality to preview themes  as the user navigates through the list.
+  - **Done:** Implement functionality to preview themes  as the user navigates through the list.
 
 - [ ] Option to **Turn Off `Preview`**:
   - Allow users to disable the preview feature (Maybe In UI).
