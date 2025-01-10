@@ -47,6 +47,10 @@ function M.handleKeys(buf, config)
     vim.api.nvim_create_autocmd("BufWipeout", {
         buffer = buf,
         callback = function()
+            if config.preview then
+                local selectedIndex = M.getCurrentThemeIndex()
+                require("theme-loader.core").Lt(selectedIndex)
+            end
             vim.api.nvim_set_option_value("modifiable", true, {})
         end,
     })
