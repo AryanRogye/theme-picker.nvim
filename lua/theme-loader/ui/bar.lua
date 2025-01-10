@@ -37,9 +37,11 @@ function M.handleKeys(buf)
 end
 -- Function to check if a buffer with a specific name is open
 function M.checkBufOpen(buf_name)
+    vim.notify("To Check Buf_Name -- " .. buf_name)
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
         if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
             local name = vim.api.nvim_buf_get_name(buf)
+            vim.notify(name)
             if name == buf_name then
                 return buf
             end
@@ -56,7 +58,6 @@ function M.setup(config, themes, loc)
         vim.api.nvim_buf_delete(existing_buf, { force = true })
         return
     end
-    vim.notify("Exists")
 
     vim.cmd("vsplit")
     local buf = vim.api.nvim_create_buf(false, true)
