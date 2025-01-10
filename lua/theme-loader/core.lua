@@ -25,14 +25,24 @@ function M.load_theme_state()
     end
 end
 
-function M.Lt(index)
+function loadTheme(index, save)
     local theme = M.opts.themes[index]
     if theme then
         theme.func()
-        M.save_theme_state(index) -- Save the theme index
+        if save then
+            M.save_theme_state(index) -- Save the theme index
+        end
     else
         vim.notify("Theme not found at index: " .. index, vim.log.levels.WARN)
     end
+end
+
+function M.Lt(index)
+    loadTheme(index, true)
+end
+
+function M.previewTheme(index)
+    loadTheme(index, false)
 end
 
 function M.load_theme_by_ui(index)

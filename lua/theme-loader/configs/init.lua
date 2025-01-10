@@ -27,7 +27,8 @@ local defaults = {
         ui_col_spacing = 20,
         opening = "[",
         closing = "]",
-        selection = "X"
+        selection = "X",
+        preview = true
     },
 }
 
