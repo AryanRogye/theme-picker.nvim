@@ -16,7 +16,8 @@ function M.previewHandler(buf)
     require('theme-loader.core').load_theme_by_ui(row)
 end
 
-function M.handleKeys(buf, config)
+function M.handleKeys(buf, config, themes)
+    -- using the themes to get the actual size of the themes
     vim.api.nvim_buf_set_keymap(buf, "n", "<CR>", "", {
         noremap = true,
         silent = true,
@@ -65,8 +66,8 @@ function M.handleKeys(buf, config)
             callback = function()
                 -- Current Row and Column
                 local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-                local total_lines = vim.api.nvim_buf_line_count(buf)
-                if row < total_lines then
+                local theme_lines = #themes
+                if row < theme_lines then
                     vim.api.nvim_win_set_cursor(0, { row + 1, col })
                 else
                     vim.api.nvim_win_set_cursor(0, { 1, col }) -- Wrap to top
@@ -80,11 +81,11 @@ function M.handleKeys(buf, config)
             callback = function()
                 -- Current Row and Column
                 local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-                local total_lines = vim.api.nvim_buf_line_count(buf)
+                local theme_lines = #themes
                 if row > 1 then
                     vim.api.nvim_win_set_cursor(0, { row - 1, col })
                 else
-                    vim.api.nvim_win_set_cursor(0, { total_lines, col }) -- Wrap to bottom
+                    vim.api.nvim_win_set_cursor(0, { theme_lines, col })
                 end
                 M.previewHandler(buf)
             end
@@ -131,7 +132,7 @@ function M.setup(config, themes, loc)
     vim.api.nvim_win_set_buf(win, buf)
     M.drawThemes(themes, config, buf)
     M.drawMenu(themes,config,buf)
-    M.handleKeys(buf, config)
+    M.handleKeys(buf, config, themes)
 
     vim.api.nvim_set_option_value("buftype", "nofile", {})
 
