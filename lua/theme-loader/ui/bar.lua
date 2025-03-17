@@ -57,30 +57,36 @@ function M.handleKeys(buf, config)
         require("theme-loader.core").Lt(M.getCurrentThemeIndex())
     end})
 
-    -- For Config Preview = true
+    -- TODO: (The j and k key dont work too well right now) For Config Preview = true
     if config.preview then
         vim.api.nvim_buf_set_keymap(buf, "n", "j", "", {
             noremap = true,
             silent = true,
             callback = function()
+                -- Current Row and Column
                 local row, col = unpack(vim.api.nvim_win_get_cursor(0))
                 local total_lines = vim.api.nvim_buf_line_count(buf)
                 if row < total_lines then
                     vim.api.nvim_win_set_cursor(0, { row + 1, col })
-                    M.previewHandler(buf)
+                else
+                    vim.api.nvim_win_set_cursor(0, { 1, col }) -- Wrap to top
                 end
+                M.previewHandler(buf)
             end
         })
         vim.api.nvim_buf_set_keymap(buf, "n", "k", "", {
             noremap = true,
             silent = true,
             callback = function()
+                -- Current Row and Column
                 local row, col = unpack(vim.api.nvim_win_get_cursor(0))
                 local total_lines = vim.api.nvim_buf_line_count(buf)
                 if row > 1 then
                     vim.api.nvim_win_set_cursor(0, { row - 1, col })
-                    M.previewHandler(buf)
+                else
+                    vim.api.nvim_win_set_cursor(0, { total_lines, col }) -- Wrap to bottom
                 end
+                M.previewHandler(buf)
             end
         })
     end
