@@ -58,7 +58,7 @@ function M.handleKeys(buf, config, themes)
         require("theme-loader.core").Lt(M.getCurrentThemeIndex())
     end})
 
-    -- TODO: (The j and k key dont work too well right now) For Config Preview = true
+    -- Preview Handlers
     if config.preview then
         vim.api.nvim_buf_set_keymap(buf, "n", "j", "", {
             noremap = true,
@@ -91,6 +91,7 @@ function M.handleKeys(buf, config, themes)
             end
         })
     end
+
 end
 
 function M.drawThemes(themes, config, buf)
@@ -113,11 +114,18 @@ function M.drawMenu(themes, config, buf)
     local rowLen = #themes
     local bar = string.rep("-", config.ui_col_spacing)
     vim.api.nvim_set_option_value("modifiable", true, {})
-    vim.api.nvim_buf_set_lines(buf, rowLen + 1, -1, false, {
-        bar,
-        "p toggle preview",
-        "q or :q quit"
-    })
+
+    local color_utils = require("theme-loader.utils")
+    local highlight_info = color_utils.get_highlight_str_info("Normal")
+
+    -- Merge everything into a single list
+    local lines = { bar } -- Start with the separator
+    vim.list_extend(lines, highlight_info) -- Append highlight info properly
+    table.insert(lines, "q or :q quit") -- Add exit message
+
+    -- Now 'lines' is a proper table of strings, no nested tables
+    vim.api.nvim_buf_set_lines(buf, rowLen + 1, -1, false, lines)
+
     vim.api.nvim_set_option_value("modifiable", false, {})
 end
 
