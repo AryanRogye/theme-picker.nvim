@@ -118,12 +118,9 @@ function M.drawMenu(themes, config, buf)
     local bar = string.rep("-", config.ui_col_spacing)
     vim.api.nvim_set_option_value("modifiable", true, {})
 
-    local color_utils = require("theme-loader.utils")
-    local highlight_info = color_utils.get_highlight_str_info("Normal")
 
     -- Merge everything into a single list
     local lines = { bar } -- Start with the separator
-    vim.list_extend(lines, highlight_info) -- Append highlight info properly
     table.insert(lines, "q or :q quit") -- Add exit message
 
     -- Now 'lines' is a proper table of strings, no nested tables

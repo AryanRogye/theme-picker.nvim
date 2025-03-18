@@ -1,5 +1,9 @@
 local M = {}
 
+-- Function will save any changes made to the nvim theme in here, or at least will store chagnes made and apply them at the start if the theme is applied or not
+function M.save_theme_highlight_group(highlight_group, color)
+end
+
 -- Function to save the theme inside the users data directory
 function M.save_theme_state(index)
     local state_file = vim.fn.stdpath("data") .. "/theme_loader_state.json"

@@ -60,18 +60,8 @@ local functions = {
     [3] = function() require("theme-loader.configs").COLOR_PICKER() end,
 }
 
-function M.handleThemes(opts)
-    if #opts.themes == 0 then
-        return false, "No themes provided! Please pass themes in setup()."
-    end
-    return true
-end
 
-local function handleFuncName(
-    mode,
-    key,
-    func_name
-)
+local function handleFuncName(mode,key,func_name)
     local index = names[func_name]
     if not index then
         vim.notify("Index Not Found", vim.log.levels.ERROR)
@@ -89,6 +79,14 @@ local function handleFuncName(
         func,
         { noremap = true, silent = true }
     )
+end
+
+
+function M.handleThemes(opts)
+    if #opts.themes == 0 then
+        return false, "No themes provided! Please pass themes in setup()."
+    end
+    return true
 end
 
 function M.handleKeyBindings(opts)
