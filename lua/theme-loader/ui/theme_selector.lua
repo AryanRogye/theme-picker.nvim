@@ -13,7 +13,7 @@ function M.previewHandler(buf)
     require("theme-loader.core").previewTheme(row)
     -- Close The Current Buffer And Open it Again
     vim.api.nvim_buf_delete(buf, { force = true })
-    require('theme-loader.core').load_theme_by_ui(row)
+    require('theme-loader.commands').load_theme_by_ui(row)
 end
 
 function M.handleKeys(buf, config, themes)
@@ -27,10 +27,10 @@ function M.handleKeys(buf, config, themes)
                 vim.notify("There Was An Error", vim.log.levels.WARN)
                 return
             end
-            require("theme-loader.core").Lt(row)
+            require("theme-loader.core").loadTheme(row)
             -- Close The Current Buffer And Open it Again
             vim.api.nvim_buf_delete(buf, { force = true })
-            require('theme-loader.core').load_theme_by_ui(row)
+            require('theme-loader.commands').load_theme_by_ui(row)
         end
     })
     vim.api.nvim_buf_set_keymap(buf, "n", "q", "", {
@@ -39,7 +39,7 @@ function M.handleKeys(buf, config, themes)
         callback = function()
             if config.preview then
                 local selectedIndex = M.getCurrentThemeIndex()
-                require("theme-loader.core").Lt(selectedIndex)
+                require("theme-loader.core").loadTheme(selectedIndex)
             end
             vim.api.nvim_set_option_value("modifiable", true, {})
             vim.api.nvim_buf_delete(buf, { force = true })
@@ -57,7 +57,7 @@ function M.handleKeys(buf, config, themes)
     vim.api.nvim_buf_set_keymap(buf, "n", "l", "", { noremap = true, silent = true })
     vim.api.nvim_buf_set_keymap(buf, "n", "p", "", { noremap = true, silent = true, callback = function()
         config.preview = not config.preview
-        require("theme-loader.core").Lt(M.getCurrentThemeIndex())
+        require("theme-loader.core").loadTheme(M.getCurrentThemeIndex())
     end})
 
     -- Preview Handlers

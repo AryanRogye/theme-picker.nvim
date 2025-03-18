@@ -1,4 +1,5 @@
 local core = require("theme-loader.core")
+local commands = require("theme-loader.commands")
 local M = {}
 
 -- Accepts themes which looks like
@@ -33,13 +34,13 @@ local defaults = {
 }
 
 function M.UI()
-    core.load_theme_by_ui()
+    commands.load_theme_by_ui()
 end
 function M.INDEX()
-    core.load_theme_by_index()
+    commands.load_theme_by_index()
 end
 function M.COLOR_PICKER()
-    core.load_color_picker()
+    commands.load_color_picker()
 end
 
 
@@ -120,6 +121,7 @@ end
 function M.setup(opts)
     M.opts = vim.tbl_deep_extend("force", defaults, opts or {})
     core.setup(M.opts)
+    commands.setup(M.opts)
 
     -- Handle Themes
     local isValid, err = M.handleThemes(M.opts)
@@ -141,7 +143,7 @@ function M.setup(opts)
         end
         vim.notify("There Was An Error With The Keybindings", vim.log.levels.ERROR)
     end
-    core.Lt(M.opts.default)
+    core.loadTheme(M.opts.default)
 end
 
 
