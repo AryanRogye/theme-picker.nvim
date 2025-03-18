@@ -1,5 +1,6 @@
 local M = {}
 
+-- Function to save the theme inside the users data directory
 function M.save_theme_state(index)
     local state_file = vim.fn.stdpath("data") .. "/theme_loader_state.json"
     local state = { last_index = index }
@@ -12,6 +13,7 @@ function M.save_theme_state(index)
     end
 end
 
+-- Function retrieves the current theme from the user data directory
 function M.load_theme_state()
     local state_file = vim.fn.stdpath("data") .. "/theme_loader_state.json"
     local file = io.open(state_file, "r")
@@ -46,7 +48,7 @@ function M.previewTheme(index)
 end
 
 function M.load_theme_by_ui(index)
-    require("theme-loader.ui.bar").setup(M.opts.config,M.opts.themes, index)
+    require("theme-loader.ui.theme_selector").setup(M.opts.config,M.opts.themes, index)
 end
 
 function M.load_theme_by_index()
@@ -58,6 +60,15 @@ function M.load_theme_by_index()
         vim.notify("Invalid input! Please enter a number.", vim.log.levels.WARN)
     end
 end
+
+
+function M.load_color_picker()
+    require("theme-loader.ui.theme_editor").setup(M.opts)
+end
+
+
+
+
 
 function M.setup(opts)
     M.opts = opts

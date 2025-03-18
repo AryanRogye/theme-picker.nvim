@@ -2,19 +2,19 @@ local core = require("theme-loader.core")
 local M = {}
 
 -- Accepts themes which looks like
---- @field default int default index to start at     
---- @field themes  table[] 
+-- @field default int default index to start at     
+-- @field themes  table[] 
 ---   - `name` (string): The name of the theme.
 ---   - `func` (function): Function to apply the theme.
---- @Example ↓
+-- @Example ↓
 --- themes = {
 ---             { name = "Theme Name" , func = function   <- Make sure no() around it },
 ---          }
---- TODO Check if colorscheme([]) works or not
----  @field Keys table[] 
----   - `func` (string): Name of the function to call (e.g., "loadThemeByIndex").
+-- TODO Check if colorscheme([]) works or not
+-- @field Keys table[] 
+---  - `func` (string): Name of the function to call (e.g., "loadThemeByIndex").
 ---   - `key` (string): Keybinding (e.g., "<leader>t1").
----  @Example ↓
+--  @Example ↓
 ---
 ---  keys = {
 ---             { func = "loadThemeByIndex || ltbi" , mode ="n / v / i" ,keys = "<leader> or <C-> whatever this isnt required" },
@@ -38,18 +38,26 @@ end
 function M.INDEX()
     core.load_theme_by_index()
 end
+function M.COLOR_PICKER()
+    core.load_color_picker()
+end
 
 
+-- This is the names which map to a index
+-- The indexes are used in the functions which match to a function
 local names = {
     ["ltbui"] = 1,
     ["loadThemeByUI"] = 1,
     ["ltbi"] = 2,
-    ["loadThemeByIndex"] = 2
+    ["loadThemeByIndex"] = 2,
+    ["lcp"] = 3,
+    ["loadColorPicker"] = 3
 }
 
 local functions = {
     [1] = function() require("theme-loader.configs").UI() end,
     [2] = function() require('theme-loader.configs').INDEX() end,
+    [3] = function() require("theme-loader.configs").COLOR_PICKER() end,
 }
 
 function M.handleThemes(opts)

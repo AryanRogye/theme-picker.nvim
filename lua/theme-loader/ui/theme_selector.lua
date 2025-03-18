@@ -51,6 +51,8 @@ function M.handleKeys(buf, config, themes)
             vim.api.nvim_set_option_value("modifiable", true, {})
         end,
     })
+    -- Block off these two keys so that you cant move left and right, tbh if the users h and l are not left and right
+    -- then it will be overwritten and they will be allowed to move left and right
     vim.api.nvim_buf_set_keymap(buf, "n", "h", "", { noremap = true, silent = true })
     vim.api.nvim_buf_set_keymap(buf, "n", "l", "", { noremap = true, silent = true })
     vim.api.nvim_buf_set_keymap(buf, "n", "p", "", { noremap = true, silent = true, callback = function()
@@ -109,6 +111,7 @@ function M.drawThemes(themes, config, buf)
     end
     vim.api.nvim_set_option_value("modifiable", false, {})
 end
+
 function M.drawMenu(themes, config, buf)
     -- First Step is Getting The Row Height
     local rowLen = #themes
@@ -129,6 +132,8 @@ function M.drawMenu(themes, config, buf)
     vim.api.nvim_set_option_value("modifiable", false, {})
 end
 
+
+-- Starting Point of the Theme Picker Menu
 function M.setup(config, themes, loc)
     vim.cmd("vsplit")
     local buf = vim.api.nvim_create_buf(false, true)
