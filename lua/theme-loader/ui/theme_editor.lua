@@ -188,18 +188,22 @@ function M.setup_keybinds(highlight_values, opts)
 end
 
 M.highlight_groups = {
-    "Normal", "CursorLine", "Comment",
-    "Visual",        -- Highlight for selected text
-    "StatusLine",    -- Bottom status bar
-    "StatusLineNC",  -- Status bar for inactive windows
-    "LineNr",        -- Line numbers
-    "CursorColumn",  -- Highlight for the column where the cursor is
-    "Folded",        -- Folded text
-    "Pmenu",         -- Popup menu background (like autocomplete)
-    "PmenuSel",      -- Selected item in popup
-    "Search",        -- Search highlight
-    "IncSearch",     -- Incremental search
-    "DiagnosticError", "DiagnosticWarn", "DiagnosticInfo", "DiagnosticHint" -- LSP diagnostics
+    "Normal",                           -- Normal text
+    "NormalNC",                         -- Normal text in non-current windows
+    "CursorLine",                       -- Highlight for the line where the cursor is
+    "Comment",                          -- Commented text
+    "Visual",                           -- Highlight for selected text
+    "StatusLine",                       -- Bottom status bar
+    "StatusLineNC",                     -- Status bar for inactive windows
+    "LineNr",                           -- Line numbers
+    "CursorColumn",                     -- Highlight for the column where the cursor is
+    "Folded",                           -- Folded text
+    "Pmenu",                            -- Popup menu background (like autocomplete)
+    "PmenuSel",                         -- Selected item in popup
+    "Search",                           -- Search highlight
+    "IncSearch",                        -- Incremental search
+    -- LSP diagnostics
+    "DiagnosticError", "DiagnosticWarn", "DiagnosticInfo", "DiagnosticHint"
 }
 
 -- Get A list of all the highlight groups and their values
@@ -243,6 +247,7 @@ function M.displayHighlightInfo(opts)
     return highlight_used_values
 end
 
+-- Function to display the title
 function M.display_title(opts)
     -- add the title
     if opts.themes then
