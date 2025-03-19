@@ -31,6 +31,15 @@ function M.register_commands()
         local storage = require("theme-loader.storage")
         storage.resetThemeByIndex(M.opts)
     end, {})
+    vim.api.nvim_create_user_command("LoadThemeByIndex", function()
+        M.load_theme_by_index()
+    end, {})
+    vim.api.nvim_create_user_command("LoadThemeByUI", function()
+        M.load_theme_by_ui()
+    end, {})
+    vim.api.nvim_create_user_command("LoadColorPicker", function()
+        M.load_color_picker()
+    end, {})
 end
 
 

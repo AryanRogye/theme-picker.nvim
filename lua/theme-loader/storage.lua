@@ -85,6 +85,56 @@ function M.getAllThemesData()
     end
 end
 
+function M.resetCurrentTheme()
+    local state_file = vim.fn.stdpath("data") .. "/theme_loader_state.json"
+    local file = io.open(state_file, "r")
+    if not file then
+        vim.notify("No theme state file found—nothing to reset.", vim.log.levels.INFO)
+        return
+    end
+
+    local content = file:read("*a")
+    file:close()
+
+    local data = vim.fn.json_decode(content)
+    if not data or not data.themes then
+        vim.notify("No theme data found—nothing to reset.", vim.log.levels.INFO)
+        return
+    end
+
+    local current_theme = data.selected_theme
+    if not current_theme or not data.themes[current_theme] then
+        vim.notify("No stored highlights found for '" .. tostring(current_theme) .. "'.", vim.log.levels.INFO)
+        return
+    end
+
+    -- Remove the theme from data.themes
+    data.themes[current_theme] = nil
+    data.selected_theme = nil
+    data.last_index = nil -- if you no longer need indexes, just clear it
+
+    -- Clear in-memory tracking
+    M.title = ""
+    M.changed_highlights = {}
+
+    -- Write updated data
+    file = io.open(state_file, "w")
+    if file then
+        file:write(vim.fn.json_encode(data))
+        file:close()
+        vim.notify("Removed theme '" .. current_theme .. "' from persisted state.", vim.log.levels.INFO)
+    else
+        vim.notify("Failed to update theme state file.", vim.log.levels.ERROR)
+        return
+    end
+
+    -- Optionally reset to a default theme (if desired)
+    -- if opts.themes[opts.default] and opts.themes[opts.default].func then
+    --     opts.themes[opts.default].func()
+    --     vim.notify("Reset to default theme: " .. opts.themes[opts.default].name, vim.log.levels.INFO)
+    -- end
+end
+
 function M.resetThemeByIndex(opts)
     local state_file = vim.fn.stdpath("data") .. "/theme_loader_state.json"
     local file = io.open(state_file, "r")
@@ -104,8 +154,8 @@ function M.resetThemeByIndex(opts)
 
     -- 1) Get the last_index from the JSON
     local idx = data.last_index
-    if not idx or not opts.themes[idx] then
-        vim.notify("No valid last_index or theme found—nothing to reset.", vim.log.levels.INFO)
+    if not idx or not opts.themes[idx] or not data.themes then
+        vim.notify("No valid last_index or theme found—nothing to reset.", vim.log.levels.WARN)
         return
     end
 

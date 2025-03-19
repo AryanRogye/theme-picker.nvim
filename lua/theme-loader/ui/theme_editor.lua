@@ -187,10 +187,20 @@ function M.setup_keybinds(highlight_values, opts)
     })
 end
 
-
-
-
-M.highlight_groups = { "Normal", "CursorLine", "Comment" }
+M.highlight_groups = {
+    "Normal", "CursorLine", "Comment",
+    "Visual",        -- Highlight for selected text
+    "StatusLine",    -- Bottom status bar
+    "StatusLineNC",  -- Status bar for inactive windows
+    "LineNr",        -- Line numbers
+    "CursorColumn",  -- Highlight for the column where the cursor is
+    "Folded",        -- Folded text
+    "Pmenu",         -- Popup menu background (like autocomplete)
+    "PmenuSel",      -- Selected item in popup
+    "Search",        -- Search highlight
+    "IncSearch",     -- Incremental search
+    "DiagnosticError", "DiagnosticWarn", "DiagnosticInfo", "DiagnosticHint" -- LSP diagnostics
+}
 
 -- Get A list of all the highlight groups and their values
 -- Function also formatted highlight values into a table for displaying

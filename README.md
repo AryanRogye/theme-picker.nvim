@@ -1,32 +1,17 @@
-# theme-picker.nvim
+# theme-picker.nvim 🎨
 
-**theme-picker.nvim** is a Neovim plugin to make switching themes effortless.
+A powerful interactive theme selector & editor for Neovim.
 
-## Features
-- Switch between multiple themes easily.
-- Bind keys to select and load themes dynamically.
-- UI to show Themes
+## ✨ Features
+- **Switch Themes On The Fly** - Instantly browse and switch themes
+- **Preview before applying** – Hover over themes to see how they look
+- **Live Theme Editor** – Modify highlight groups such as Normal, CursorLine, Comment, etc.
+- **Persistent Customization** – Your custom theme tweaks are saved across sessions
+- **Seamless Keybindings & Commands**
 
-## TODO
-- [x] Add **`Preview` Implementation**:
-  - **Done:** Implement functionality to preview themes  as the user navigates through the list.
-
-- [ ] Option to **Turn Off `Preview`**:
-  - Allow users to disable the preview feature (Maybe In UI).
-  - **Done:** Configuration option: `preview = true | false`.
-  - Ensure the UI behaves correctly when preview is disabled.
-
-- [ ] Support for **Custom Icons** for Themes Using `nvim-web-devicons`:
-  - Allow users to define custom icons for each theme in the list.
-  - Provide default icons if none are specified.
-
-- [ ] Support for UI Placement on **Different Sides**:
-  - Add options to display the UI:
-    - Vertically (default, `vsplit`).
-    - Horizontally (`split`).
-    - Possibly in a floating window.
-  - Add a configuration option, e.g., `ui_side = "right" | "bottom" | "float"`.
-
+![Live Theme Editor](assets/scr3.png)
+![Live Theme Editor](assets/scr1.png)
+![Live Theme Editor](assets/scr2.png)
 
 ## Installation
 
@@ -91,7 +76,6 @@ end
 return M
  ```
 
-
 ### Using The Plugin
 ```lua
     {
@@ -119,12 +103,6 @@ return M
 --                             ]])
 --                   end },
                 },
-                keys = {
-                    -- Format is This The only func is ltbi or loadThemeByIndex
-                    {func = "ltbi", mode = "n" , keys = "<leader>ll"},
-                    -- Or loadThemeByUI
-                    {func = "ltbui", mode = "n" , keys = "<leader>lu"}
-                },
                 -- Default Values Can Change
                 config = {
                     -- How big the bar is
@@ -136,10 +114,30 @@ return M
                     preview = true,
                 }
             })
+            vim.api.nvim_set_keymap("n", "<leader>lu", ":LoadThemeByIndex<CR>", { noremap = true, silent = true })
+            vim.api.nvim_set_keymap("n", "<leader>ll", ":LoadThemeByUI<CR>", { noremap = true, silent = true })
+            vim.api.nvim_set_keymap("n", "<leader>lp", ":LoadColorPicker<CR>", { noremap = true, silent = true })
+            -- Optional
+            -- vim.api.nvim_set_keymap("n", "<leader>st", ":SaveThemeState<CR>", { noremap = true, silent = true })
+            -- vim.api.nvim_set_keymap("n", "<leader>rt", ":LoadThemeState<CR>", { noremap = true, silent = true })
+
         end,
     },
 
 ```
+
+## Commands
+
+#### Save Theme State if theme is edited by the user with the color picker
+```vim
+:SaveThemeState
+```
+
+#### Reset Theme State if theme is edited by the user with the color picker
+```vim
+:ResetThemeState
+```
+
 
 ## Acknowledgments
 - [GruvBox](https://github.com/morhetz/gruvbox) for its vibrant color scheme.
